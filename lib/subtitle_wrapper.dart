@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pod_player/pod_player.dart';
 import 'package:subtitle_wrapper_package/bloc/subtitle/subtitle_bloc.dart';
 import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
-import 'package:video_player/video_player.dart';
 
 class SubtitleWrapper extends StatelessWidget {
   const SubtitleWrapper({
@@ -15,7 +15,7 @@ class SubtitleWrapper extends StatelessWidget {
   });
   final Widget videoChild;
   final SubtitleController subtitleController;
-  final VideoPlayerController videoPlayerController;
+  final PodPlayerController videoPlayerController;
   final SubtitleStyle subtitleStyle;
   final Color? backgroundColor;
 

@@ -1,8 +1,7 @@
-import 'package:chewie/chewie.dart';
 import 'package:example/data/sw_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:pod_player/pod_player.dart';
 import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
-import 'package:video_player/video_player.dart';
 
 void main() => runApp(const MyApp());
 
@@ -29,7 +28,6 @@ class MyHomePage extends StatefulWidget {
 
 class MyHomePageState extends State<MyHomePage> {
   final String link = SwConstants.videoUrl;
-  late ChewieController _chewieController;
   final SubtitleController subtitleController = SubtitleController(
     subtitleUrl: SwConstants.enSubtitle,
     subtitleDecoder: SubtitleDecoder.utf8,
@@ -37,22 +35,16 @@ class MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _chewieController = chewieController;
     super.initState();
   }
 
-  VideoPlayerController get videoPlayerController {
-    return VideoPlayerController.network(link);
-  }
-
-  ChewieController get chewieController {
-    return ChewieController(
-      videoPlayerController: videoPlayerController,
-      aspectRatio: 3 / 2,
-      autoPlay: true,
-      autoInitialize: true,
-      allowFullScreen: false,
-    );
+  PodPlayerController get videoPlayerController {
+    return PodPlayerController(
+        playVideoFrom: PlayVideoFrom.network(
+          link,
+        ),
+        podPlayerConfig: const PodPlayerConfig(autoPlay: true))
+      ..initialise();
   }
 
   void updateSubtitleUrl({
@@ -88,14 +80,14 @@ class MyHomePageState extends State<MyHomePage> {
             child: SizedBox(
               height: 270,
               child: SubtitleWrapper(
-                videoPlayerController: _chewieController.videoPlayerController,
+                videoPlayerController: videoPlayerController,
                 subtitleController: subtitleController,
                 subtitleStyle: const SubtitleStyle(
                   textColor: Colors.white,
                   hasBorder: true,
                 ),
-                videoChild: Chewie(
-                  controller: _chewieController,
+                videoChild: PodVideoPlayer(
+                  controller: videoPlayerController,
                 ),
               ),
             ),
@@ -228,7 +220,7 @@ class MyHomePageState extends State<MyHomePage> {
   @override
   void dispose() {
     super.dispose();
-    _chewieController.dispose();
+    videoPlayerController.dispose();
   }
 }
 

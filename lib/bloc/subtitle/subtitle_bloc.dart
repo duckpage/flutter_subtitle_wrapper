@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pod_player/pod_player.dart';
 import 'package:subtitle_wrapper_package/subtitle_wrapper_package.dart';
-import 'package:video_player/video_player.dart';
 
 part 'subtitle_event.dart';
 part 'subtitle_state.dart';
@@ -25,7 +25,7 @@ class SubtitleBloc extends Bloc<SubtitleEvent, SubtitleState> {
     );
   }
 
-  final VideoPlayerController videoPlayerController;
+  final PodPlayerController videoPlayerController;
   final SubtitleRepository subtitleRepository;
   final SubtitleController subtitleController;
 
@@ -46,7 +46,8 @@ class SubtitleBloc extends Bloc<SubtitleEvent, SubtitleState> {
     emit(LoadingSubtitle());
     videoPlayerController.addListener(
       () {
-        final videoPlayerPosition = videoPlayerController.value.position;
+        final videoPlayerPosition =
+            videoPlayerController.videoPlayerValue!.position;
         if (subtitles.subtitles.isNotEmpty &&
             videoPlayerPosition.inMilliseconds >
                 subtitles.subtitles.last.endTime.inMilliseconds) {

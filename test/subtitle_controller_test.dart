@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:pod_player/pod_player.dart';
 import 'package:subtitle_wrapper_package/bloc/subtitle/subtitle_bloc.dart';
 import 'package:subtitle_wrapper_package/data/repository/subtitle_repository.dart';
 import 'package:subtitle_wrapper_package/subtitle_controller.dart';
-import 'package:video_player/video_player.dart';
 
-class MockVideoPlayerController extends Mock implements VideoPlayerController {}
+class MockVideoPlayerController extends Mock implements PodPlayerController {}
 
 void main() {
   final subtitleController = SubtitleController(
